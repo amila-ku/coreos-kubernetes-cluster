@@ -77,7 +77,7 @@ variable "master_node_count" {
   default = "1"
 }
 variable "master_ins_type" {
-  default = "t2.micro"
+  default = "m4.large"
 }
 variable "worker_node_count" {
   default = "3"
