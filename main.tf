@@ -10,6 +10,7 @@ resource "aws_elb" "etcd-elb" {
   # The same availability zone as our instances
   availability_zones = ["${split(",", var.availability_zones)}"]
   security_groups = ["${aws_security_group.elb_sg.id}"]
+  idle_timeout = "${var.idel_timeout}"
 
   listener {
     instance_port     = 2379
