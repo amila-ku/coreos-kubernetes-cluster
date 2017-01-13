@@ -1,0 +1,4 @@
+etcd_discovery_url.txt
+*.pem
+*.tfstate
+*.tfstate.*
