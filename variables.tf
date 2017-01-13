@@ -65,7 +65,7 @@ variable "s3_bucket" {
   default = "k8tlsbackect"
 }
 variable "pod_network" {
-    default = "10.2.0.0/16"
+    default = "10.5.0.0/16"
 }
 variable "kubelet_version" {
     default = "v1.5.1_coreos.0"
