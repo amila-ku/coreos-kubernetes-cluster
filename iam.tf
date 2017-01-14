@@ -194,3 +194,71 @@ resource "aws_iam_role_policy" "master" {
 EOF
 }
 
+
+#worker
+resource "aws_iam_role" "worker" {
+    name = "k8s-worker"
+    path = "/"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "worker" {
+    name = "k8s-worker"
+    roles = ["${aws_iam_role.worker.name}"]
+}
+
+resource "aws_iam_role_policy" "worker" {
+    name = "k8s-worker"
+    role = "${aws_iam_role.worker.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.s3_bucket}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+
+
+}
+EOF
+}
+
