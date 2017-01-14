@@ -50,7 +50,7 @@ resource "aws_elb" "master-elb" {
   # The same availability zone as our instances
   availability_zones   = ["${split(",", var.availability_zones)}"]
   security_groups = ["${aws_security_group.elb_sg.id}"]
-  idle_timeout = "${var.idel_timeout}"
+  idle_timeout = "${var.idle_timeout}"
   internal = "false"
 
   listener {
