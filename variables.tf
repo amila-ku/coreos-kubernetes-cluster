@@ -82,6 +82,9 @@ variable "master_ins_type" {
 variable "worker_node_count" {
   default = "3"
 }
+variable "worker_ins_type" {
+  default = "m4.large"
+}
 variable "idle_timeout" {
   default = "3600"
 }
