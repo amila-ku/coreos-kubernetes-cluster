@@ -25,12 +25,12 @@ write-files:
 
   - path: /tmp/certsetup.sh
     owner: "root"
-    permissions: '0600'
+    permissions: '0700'
     content: |
       #!/bin/bash
       mkdir -p /etc/kubernetes/ssl/
-      curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbucket.${aws_region}.s3.amazonaws.com/ca.pem
-      curl -o /etc/kubernetes/ssl/apiserver-key.pem  https://k8tlsbucket.${aws_region}.s3.amazonaws.com/kubernetes-key.pem
+      curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/ca.pem
+      curl -o /etc/kubernetes/ssl/apiserver-key.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes-key.pem
       curl -o /etc/kubernetes/ssl/apiserver.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes.pem
 
   - path: "/etc/profile.env"
