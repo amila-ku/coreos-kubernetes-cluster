@@ -29,15 +29,16 @@ write-files:
     content: |
       #!/bin/bash
       mkdir -p /etc/kubernetes/ssl/
-      curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbackect.s3.amazonaws.com/ca.pem
-      curl -o /etc/kubernetes/ssl/apiserver-key.pem  https://k8tlsbackect.s3.amazonaws.com/kubernetes-key.pem
-      curl -o /etc/kubernetes/ssl/apiserver.pem  https://k8tlsbackect.s3.amazonaws.com/kubernetes.pem
+      curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbucket.s3.amazonaws.com/ca.pem
+      curl -o /etc/kubernetes/ssl/apiserver-key.pem  https://k8tlsbucket.s3.amazonaws.com/kubernetes-key.pem
+      curl -o /etc/kubernetes/ssl/apiserver.pem  https://k8tlsbucket.s3.amazonaws.com/kubernetes.pem
 
   - path: "/etc/profile.env"
     content: |
       export KUBELET_VERSION=v1.5.1_coreos.0
       export FLANNELD_IFACE=$private_ipv4
       export FLANNELD_ETCD_ENDPOINTS=${FLANNELD_ETCD_ENDPOINTS}
+      export FLANNEL_ETCD_KEY="/coreos.com/network"
 
   - path: "/etc/kubernetes/manifests/kube-apiserver.yaml"
     owner: "root"
