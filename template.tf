@@ -18,6 +18,7 @@ resource "template_file" "master-user-data" {
     DNS_SERVICE_IP = "${var.dns_service_ip}"
     S3_BUCKET = "${var.s3_bucket}"
     K8S_VER = "${var.kubelet_version}"
+    aws_region = "${var.aws_region}"
   }
 
 }
