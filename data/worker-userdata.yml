@@ -33,7 +33,8 @@ write-files:
       curl -o /etc/kubernetes/ssl/worker-key.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes-key.pem
       curl -o /etc/kubernetes/ssl/worker.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes.pem
       curl -o /etc/kubernetes/manifests/kube-worker.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kube-proxy-worker.yaml
-      curl -o /etc/kubernetes/manifests/worker-kubeconfig.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/worker-kubeconfig.yaml
+      rm -rf /etc/kubernetes/worker-kubeconfig.yaml
+      curl -o /etc/kubernetes/worker-kubeconfig.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/worker-kubeconfig.yaml
 
   - path: "/etc/profile.env"
     content: |
@@ -53,6 +54,41 @@ write-files:
           sleep 1 && echo .;
         done;
       exit $?
+
+  - path: /etc/kubernetes/manifests/kube-proxy.yaml
+    permissions: '0755'
+    content: |
+      [Service]
+      Environment=KUBELET_VERSION=v1.5.1_coreos.0
+      Environment="RKT_OPTS=--uuid-file-save=/var/run/kubelet-pod.uuid \
+        --volume var-log,kind=host,source=/var/log \
+        --mount volume=var-log,target=/var/log \
+        --volume dns,kind=host,source=/etc/resolv.conf \
+        --mount volume=dns,target=/etc/resolv.conf"
+      ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
+      ExecStartPre=/usr/bin/mkdir -p /var/log/containers
+      ExecStartPre=-/usr/bin/rkt rm --uuid-file=/var/run/kubelet-pod.uuid
+      ExecStart=/usr/lib/coreos/kubelet-wrapper \
+        --api-servers=https://master-kube-cluster.paas.cloud \
+        --cni-conf-dir=/etc/kubernetes/cni/net.d \
+        --network-plugin=cni \
+        --container-runtime=docker \
+        --register-node=true \
+        --allow-privileged=true \
+        --pod-manifest-path=/etc/kubernetes/manifests \
+        --hostname-override=worker-$private_ipv4.paas.cloud \
+        --cluster_dns=10.5.0.10 \
+        --cluster_domain=cluster.local \
+        --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml \
+        --tls-cert-file=/etc/kubernetes/ssl/worker.pem \
+        --tls-private-key-file=/etc/kubernetes/ssl/worker-key.pem
+      ExecStop=-/usr/bin/rkt stop --uuid-file=/var/run/kubelet-pod.uuid
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+
 
 coreos:
   units:
@@ -112,7 +148,7 @@ coreos:
         --register-node=true \
         --allow-privileged=true \
         --pod-manifest-path=/etc/kubernetes/manifests \
-        --hostname-override=$private_ipv4 \
+        --hostname-override=worker-$private_ipv4.paas.cloud \
         --cluster_dns=${DNS_SERVICE_IP} \
         --cluster_domain=cluster.local \
         --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml \

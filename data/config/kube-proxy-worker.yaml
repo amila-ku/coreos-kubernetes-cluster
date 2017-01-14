@@ -11,7 +11,7 @@ spec:
     command:
     - /hyperkube
     - proxy
-    - --master=${MASTER_ELB}
+    - --master=https://master.paas.cloud
     - --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml
     securityContext:
       privileged: true

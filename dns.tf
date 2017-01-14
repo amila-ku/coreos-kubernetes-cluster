@@ -10,7 +10,7 @@ resource "aws_route53_zone" "main" {
 
 resource "aws_route53_record" "master" {
    zone_id = "${aws_route53_zone.main.zone_id}"
-   name = "master-${var.cluster_name}.paas.cloud"
+   name = "master.paas.cloud"
    type = "A"
 
    alias {
@@ -23,7 +23,7 @@ resource "aws_route53_record" "master" {
 
 resource "aws_route53_record" "etcd" {
    zone_id = "${aws_route53_zone.main.zone_id}"
-   name = "etcd-${var.cluster_name}.paas.cloud"
+   name = "etcd.paas.cloud"
    type = "A"
 
    alias {
