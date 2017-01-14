@@ -1,4 +1,5 @@
 etcd_discovery_url.txt
+etcd-key.pem
 *.tfstate
 *.tfstate.*
 *.swp
