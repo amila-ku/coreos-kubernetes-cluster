@@ -1,5 +1,6 @@
 resource "aws_route53_zone" "main" {
   name = "paas.cloud"
+  vpc_id = "vpc-36615a5f"
 
   tags {
     Environment = "main"

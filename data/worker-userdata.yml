@@ -32,6 +32,8 @@ write-files:
       curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/ca.pem
       curl -o /etc/kubernetes/ssl/worker-key.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes-key.pem
       curl -o /etc/kubernetes/ssl/worker.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes.pem
+      curl -o /etc/kubernetes/manifests/kube-worker.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kube-proxy-worker.yaml
+      curl -o /etc/kubernetes/manifests/worker-kubeconfig.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/worker-kubeconfig.yaml
 
   - path: "/etc/profile.env"
     content: |
@@ -39,7 +41,7 @@ write-files:
       export FLANNELD_IFACE=$private_ipv4
       export FLANNELD_ETCD_ENDPOINTS=${FLANNELD_ETCD_ENDPOINTS}
       export FLANNEL_ETCD_KEY="/coreos.com/network"
-
+      export MASTER_ELB="${MASTER_ELB}"
 
   - path: /opt/bin/wupiao
     permissions: '0755'
@@ -103,7 +105,7 @@ coreos:
       ExecStartPre=/usr/bin/mkdir -p /var/log/containers
       ExecStartPre=-/usr/bin/rkt rm --uuid-file=/var/run/kubelet-pod.uuid
       ExecStart=/usr/lib/coreos/kubelet-wrapper \
-        --api-servers=${MASTER_ELB} \
+        --api-servers=https://${MASTER_ELB} \
         --cni-conf-dir=/etc/kubernetes/cni/net.d \
         --network-plugin=cni \
         --container-runtime=docker \
