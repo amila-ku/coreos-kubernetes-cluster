@@ -10,6 +10,8 @@ resource "aws_autoscaling_group" "master" {
   force_delete              = false
   launch_configuration      = "${aws_launch_configuration.master.name}"
 
+  load_balancers       = ["${aws_elb.master-elb.name}"]
+
   tag {
     key                 = "Name"
     value               = "master-${var.cluster_name}"
