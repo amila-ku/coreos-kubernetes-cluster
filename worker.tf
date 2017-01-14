@@ -1,5 +1,4 @@
 resource "aws_autoscaling_group" "worker" {
-#  vpc_zone_identifier       = ["${aws_subnet.k8-master-subnet.id}"]
   availability_zones   = ["${split(",", var.availability_zones)}"]
   name                      = "k8-worker-asg-${var.cluster_name}"
   max_size                  = 3
@@ -33,7 +32,6 @@ resource "aws_launch_configuration" "worker" {
   instance_type        = "${var.worker_ins_type}"
   key_name             = "${var.key_name}"
   security_groups      = ["${aws_security_group.default_kube.id}"]
-#  user_data            = "${file("${path.module}/files/master-userdata.yml")}"
   user_data            = "${template_file.worker-user-data.rendered}"
   iam_instance_profile = "${aws_iam_instance_profile.worker.id}"
 

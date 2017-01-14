@@ -141,6 +141,7 @@ coreos:
           EnvironmentFile=/etc/kubernetes/cni/docker_opts_cni.env
 
   - name: set-tls-info.service
+    command: start
     content: |
       [Unit]
       Description=Get TLS information
@@ -152,6 +153,8 @@ coreos:
   - name: kubelet.service
     command: start
     content: |
+      [Unit]
+      After=set-tls-info.service
       [Service]
       Environment=KUBELET_VERSION=${K8S_VER}
       Environment=ADVERTISE_IP=$private_ipv4

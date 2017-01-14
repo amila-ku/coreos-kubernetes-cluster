@@ -80,6 +80,7 @@ coreos:
           EnvironmentFile=/etc/kubernetes/cni/docker_opts_cni.env
 
   - name: set-tls-info.service
+    command: start
     content: |
       [Unit]
       Description=Get TLS information
