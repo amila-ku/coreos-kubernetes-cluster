@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "worker" {
   health_check_type         = "EC2"
   desired_capacity          = "${var.worker_node_count}"
   force_delete              = false
-  launch_configuration      = "${aws_launch_configuration.master.name}"
+  launch_configuration      = "${aws_launch_configuration.worker.name}"
 
   tag {
     key                 = "Name"

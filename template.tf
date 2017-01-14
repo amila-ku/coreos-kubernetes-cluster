@@ -24,7 +24,7 @@ resource "template_file" "master-user-data" {
 }
 
 resource "template_file" "worker-user-data" {
-  template = "${file("data/master-userdata.yml")}"
+  template = "${file("data/worker-userdata.yml")}"
   vars  {
     KUBERNETES_VERSION = "${var.kubernetes_version}"
     KUBERNETES_CONTAINERS_CIDR = "${var.pod_network}"
