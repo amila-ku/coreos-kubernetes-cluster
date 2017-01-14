@@ -33,7 +33,7 @@ resource "template_file" "worker-user-data" {
     SERVICE_IP_RANGE = "${var.service_ip_range}"
     API_SECURE_PORT = "${var.api_secure_port}"
     DNS_SERVICE_IP = "${var.dns_service_ip}"
-    MASTER_ELB = "${aws_elb.master-elb.dns_name}"
+    MASTER_ELB = "${aws_route53_record.master.name}"
     S3_BUCKET = "${var.s3_bucket}"
     K8S_VER = "${var.kubelet_version}"
     aws_region = "${var.aws_region}"
