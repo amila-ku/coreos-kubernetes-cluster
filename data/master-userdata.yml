@@ -124,7 +124,7 @@ coreos:
         content: |
           [Service]
           ExecStartPre=/usr/bin/etcdctl --endpoints ${FLANNELD_ETCD_ENDPOINTS} \
-          set /coreos.com/network/config '{ "Network": "${KUBERNETES_CONTAINERS_CIDR}", "Backend":{"Type": "vxlan" }'
+          set /coreos.com/network/config '{ "Network": "${KUBERNETES_CONTAINERS_CIDR}","SubnetLen": 24, "Backend":{"Type": "vxlan" } }'
 
   - name: docker.service
     command: start
@@ -136,6 +136,15 @@ coreos:
           After=flanneld.service
           [Service]
           EnvironmentFile=/etc/kubernetes/cni/docker_opts_cni.env
+
+  - name: set-tls-info.service
+    content: |
+      [Unit]
+      Description=Get TLS information
+      [Service]
+      Type=oneshot
+      EnvironmentFile=/etc/profile.env
+      ExecStart=/usr/bin/bash -c /tmp/certsetup.sh
 
   - name: kubelet.service
     command: start
