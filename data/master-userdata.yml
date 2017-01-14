@@ -32,6 +32,9 @@ write-files:
       curl -o /etc/kubernetes/ssl/ca.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/ca.pem
       curl -o /etc/kubernetes/ssl/apiserver-key.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes-key.pem
       curl -o /etc/kubernetes/ssl/apiserver.pem  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kubernetes.pem
+      curl -o /etc/kubernetes/manifests/kube-proxy.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kube-proxy.yaml
+      curl -o /etc/kubernetes/manifests/kube-controller-manager.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kube-controller-manager.yaml
+      curl -o /etc/kubernetes/manifests/kube-scheduler.yaml  https://k8tlsbucket.s3.${aws_region}.amazonaws.com/kube-scheduler.yaml
 
   - path: "/etc/profile.env"
     content: |
