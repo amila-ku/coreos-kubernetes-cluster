@@ -24,7 +24,7 @@ export AWS_SECRET_ACCESS_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 * master ELB should listed on TCP 443 instead of HTTPS
 * use --leader-elect option to make sure one instance of schedular and controller manager is available at once.
 
-
+---
 
 This borrows ideas from Kelsey Hightower and Refers Ross Kinders implementation CoreOS official implementation guides
 
