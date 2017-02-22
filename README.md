@@ -10,11 +10,13 @@ export AWS_ACCESS_KEY_ID='xxxxxxxxxxxxxxxxxxxx'
 export AWS_SECRET_ACCESS_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 **check what resources would be created:**
-make plan to 
 
+```make plan
+```
 **create resources:**
-make apply
 
+```make apply
+```
 
 ###Issues Observed
 
