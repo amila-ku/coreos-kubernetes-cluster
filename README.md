@@ -13,6 +13,7 @@ export AWS_SECRET_ACCESS_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 ```make plan
 ```
+
 **create resources:**
 
 ```make apply
