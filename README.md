@@ -23,6 +23,7 @@ make apply
 * use --leader-elect option to make sure one instance of schedular and controller manager is available at once.
 
 
+
 This borrows ideas from Kelsey Hightower and Refers Ross Kinders implementation CoreOS official implementation guides
 
 Kelsey Hightower Repo:
