@@ -16,8 +16,8 @@ export AWS_SECRET_ACCESS_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 **create resources:**
 
-```make apply
-```
+make apply
+
 
 ###Issues Observed
 
