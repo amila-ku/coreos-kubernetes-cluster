@@ -6,8 +6,7 @@ etcd_discovery:
 
 destroy:
 	terraform destroy
-	rm etcd_discovery_url.txt kube_token.txt
-	rm -rf tls-assets
+	rm etcd_discovery_url.txt
 
 apply: etcd_discovery 
 	terraform apply
